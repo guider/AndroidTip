@@ -104,13 +104,19 @@ public class Tip {
     }
 
 
+    public class Builder {
+        int marginTop = 0;
+        int backgroundColor = R.color._ccc;
+        int imageResurce = R.drawable.tip_close_drawable;
+        int textSize = 15;
+        int textColor = R.color._fff;
+        int inAnim =R.anim.tip_in_default;
+        int outAnim = R.anim.tip_out_default;
 
 
 
 
-
-
-
+    }
 
 
 }
