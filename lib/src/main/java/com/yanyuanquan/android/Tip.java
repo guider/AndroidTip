@@ -28,6 +28,8 @@ public class Tip {
     private LinearLayout view;
     private TextView title;
     private FrameLayout container;
+    private static Builder defaultBuilder;
+    private static Builder builder;
 
     private boolean isShowing = false;
 
@@ -37,6 +39,12 @@ public class Tip {
     private Tip() {
     }
 
+
+    public static void init(Builder builder) {
+        defaultBuilder = builder;
+    }
+
+    ;
 
     public static Tip getInstance() {
         if (instance == null) {
@@ -49,11 +57,11 @@ public class Tip {
         return instance;
     }
 
-    public void showTiP(android.support.v4.app.Fragment fragment, String message, View.OnClickListener listener) {
+    public void showTip(android.support.v4.app.Fragment fragment, String message, View.OnClickListener listener) {
         showTip(fragment.getActivity(), message, listener);
     }
 
-    public void showTiP(Fragment fragment, String message, View.OnClickListener listener) {
+    public void showTip(Fragment fragment, String message, View.OnClickListener listener) {
         showTip(fragment.getActivity(), message, listener);
     }
 
@@ -104,18 +112,79 @@ public class Tip {
     }
 
 
-    public class Builder {
+    public static class Builder {
         int marginTop = 0;
         int backgroundColor = R.color._ccc;
         int imageResurce = R.drawable.tip_close_drawable;
         int textSize = 15;
         int textColor = R.color._fff;
-        int inAnim =R.anim.tip_in_default;
+        int inAnim = R.anim.tip_in_default;
         int outAnim = R.anim.tip_out_default;
+        int defaultDuration = 2000;
 
+        public Builder() {
+        }
 
+        public Builder(int marginTop) {
+            this.marginTop = marginTop;
+        }
 
+        public Builder(int marginTop, int backgroundColor, int imageResurce) {
+            this.marginTop = marginTop;
+            this.backgroundColor = backgroundColor;
+            this.imageResurce = imageResurce;
+        }
 
+        public Builder(int marginTop, int backgroundColor, int imageResurce, int textSize, int textColor, int inAnim, int outAnim, int defaultDuration) {
+            this.marginTop = marginTop;
+            this.backgroundColor = backgroundColor;
+            this.imageResurce = imageResurce;
+            this.textSize = textSize;
+            this.textColor = textColor;
+            this.inAnim = inAnim;
+            this.outAnim = outAnim;
+            this.defaultDuration = defaultDuration;
+        }
+
+        public Builder setMarginTop(int marginTop) {
+            this.marginTop = marginTop;
+            return this;
+        }
+
+        public Builder setBackgroundColor(int backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        public Builder setImageResurce(int imageResurce) {
+            this.imageResurce = imageResurce;
+            return this;
+        }
+
+        public Builder setTextSize(int textSize) {
+            this.textSize = textSize;
+            return this;
+        }
+
+        public Builder setTextColor(int textColor) {
+            this.textColor = textColor;
+            return this;
+        }
+
+        public Builder setInAnim(int inAnim) {
+            this.inAnim = inAnim;
+            return this;
+        }
+
+        public Builder setOutAnim(int outAnim) {
+            this.outAnim = outAnim;
+            return this;
+        }
+
+        public Builder setDefaultLength(int defaultDuration) {
+            this.defaultDuration = defaultDuration;
+            return this;
+        }
     }
 
 
