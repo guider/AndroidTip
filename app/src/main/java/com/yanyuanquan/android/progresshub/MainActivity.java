@@ -1,5 +1,6 @@
 package com.yanyuanquan.android.progresshub;
 
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v7.app.AppCompatActivity;
@@ -26,7 +27,6 @@ public class MainActivity extends AppCompatActivity {
 
 
         btn1 = (Button) findViewById(R.id.show);
-
         btn1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -36,32 +36,26 @@ public class MainActivity extends AppCompatActivity {
                         Log.e("zjw", "关闭 ");
                     }
                 });
-                Log.e("zjw","  message   ++++++ ");
-//            handler.postDelayed(r = new Runnable() {
-//                @Override
-//                public void run() {
-//                    Log.e("zjw","  message  ");
-//                }
-//            },3000);
-
             }
 
 
         });
-        findViewById(R.id.hide).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Tip.getInstance().showTip(MainActivity.this,"又来一条消息", new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                    }
-                });
-//                handler.removeCallbacks(r);
-
-            }
-
-
+        findViewById(R.id.hide).setOnClickListener(v->{
+            startActivity(new Intent(MainActivity.this,TestActivity.class));
         });
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Tip.getInstance().onPase();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Tip.getInstance().onDestory();
+
     }
 }

@@ -31,6 +31,7 @@ public class Tip {
     private static Builder defaultBuilder;
     private static Builder builder;
 
+    private Activity currentActivity;
     private boolean isShowing = false;
 
     private Runnable runnable;
@@ -44,7 +45,6 @@ public class Tip {
         defaultBuilder = builder;
     }
 
-    ;
 
     public static Tip getInstance() {
         if (instance == null) {
@@ -67,23 +67,28 @@ public class Tip {
 
     public void showTip(Activity activity, String message, View.OnClickListener listener) {
         handler.removeCallbacks(runnable);
+        isShowing = currentActivity == activity && isShowing;
+        currentActivity = activity;
         if (!isShowing) {
             container = (FrameLayout) activity.findViewById(android.R.id.content);
-            view = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.toptoast, container, false);
-            title = (TextView) view.findViewById(R.id.title);
+            if (container.findViewById(R.id.tip_parent) != null) {
+                view = (LinearLayout) container.findViewById(R.id.tip_parent);
+            } else {
+                view = (LinearLayout) LayoutInflater.from(activity).inflate(R.layout.toptoast, container, false);
+                title = (TextView) view.findViewById(R.id.title);
 
-            FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) view.getLayoutParams();
-            lp.topMargin = 50;
-            view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // handler对象要一致，否则失效
-                    handler.removeCallbacks(runnable);
-                    remove();
-                }
-            });
-            container.addView(view);
-            view.bringToFront();
+                FrameLayout.LayoutParams lp = (FrameLayout.LayoutParams) view.getLayoutParams();
+                lp.topMargin = 50;
+                view.findViewById(R.id.close).setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        handler.removeCallbacks(runnable);
+                        remove();
+                    }
+                });
+                container.addView(view);
+                view.bringToFront();
+            }
         }
         title.setText(message);
         isShowing = true;
@@ -110,6 +115,7 @@ public class Tip {
     private void L(String msg) {
         Log.e(TAG, msg);
     }
+
 
 
     public static class Builder {
@@ -186,6 +192,13 @@ public class Tip {
             return this;
         }
     }
-
+    public void onPase() {
+        remove();
+    }
+    public void onDestory() {
+        if (container != null) {
+            container.removeView(view);
+        }
+    }
 
 }
